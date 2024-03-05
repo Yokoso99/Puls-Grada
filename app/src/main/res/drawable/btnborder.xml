@@ -1,0 +1,22 @@
+<!-- button_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top Border -->
+    <item android:top="0dp" android:left="-2dp" android:right="-2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary" /> <!-- Background color (black) -->
+            <stroke
+                android:width="2px"
+                android:color="#FFFFFF" /> <!-- Border width in dp and color -->
+        </shape>
+    </item>
+
+    <!-- Bottom Border -->
+    <item android:bottom="0dp" android:left="-2dp" android:right="-2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary" /> <!-- Background color (black) -->
+            <stroke
+                android:width="2px"
+                android:color="#FFFFFF" /> <!-- Border width in dp and color -->
+        </shape>
+    </item>
+</layer-list>

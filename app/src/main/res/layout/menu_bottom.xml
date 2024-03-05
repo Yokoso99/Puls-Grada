@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".Main">
+
+
+    <SearchView
+
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logobtn"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round_back_search_view"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search "
+        android:textColor="@color/white"
+        android:focusable="false"
+        android:visibility="invisible" />
+
+
+
+
+
+    <ImageButton
+        android:layout_marginTop="10dp"
+        android:id="@+id/logobtn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/puls_grada_logo_033">
+
+    </ImageButton>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchView"
+        android:layout_above="@id/linearlayout"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+
+
+
+
+    </RelativeLayout>
+
+    <!-- Your other views here -->
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ImageButton
+
+        android:id="@+id/nav_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:background="@color/primary"
+        android:importantForAccessibility="no"
+        android:src="@drawable/menu" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/circular_button"
+            android:background="@drawable/btnborder"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:importantForAccessibility="no"
+            android:src="@drawable/search"/>
+
+        <ImageButton
+            android:background="@drawable/btnborder"
+            android:id="@+id/nav_map"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:importantForAccessibility="no"
+            android:src="@drawable/map"/>
+
+        <ImageButton
+            android:background="@drawable/btnborder"
+            android:id="@+id/nav_add_events"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:importantForAccessibility="no"
+            android:src="@drawable/add"/>
+
+
+
+        <ImageButton
+            android:background="@drawable/btnborder"
+            android:id="@+id/nav_history"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:importantForAccessibility="no"
+            android:src="@drawable/recent" />
+
+        <ImageButton
+            android:background="@drawable/btnborder"
+            android:id="@+id/nav_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:importantForAccessibility="no"
+            android:src="@drawable/profile"/>
+
+
+
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-5dp"
+
+        android:gravity="center">
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

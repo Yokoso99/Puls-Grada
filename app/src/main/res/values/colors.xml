@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+
+    <color name="primary">#1B023B</color>
+    <color name="secondary">#64E2D6</color>
+    <color name="night_mode">#6124B1</color>
+    <color name="notifications">#30C3D3</color>
+    <color name="private_account">#E6A326</color>
+    <color name="security">#D95F69</color>
+    <color name="background">#330033</color>
+    <color name="background2">#FFB700</color>
+    <color name="boja_za_kulturan_sadrzaj">#017E35</color>
+    <color name="boja_za_svirke">#F8A600</color>
+    <color name="boja_za_zurke">#330033</color>
+    <color name="lavender">#330033</color>
+    <color name="my_primary">#5E35B1</color>
+    <color name="my_secondary_">#673AB7</color>
+</resources>
