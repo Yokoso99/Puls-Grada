@@ -56,6 +56,7 @@ public class DogadjajiDetalji extends AppCompatActivity{
     String stari_naslov,novi_naslov,detalji,novi_detalji;
     int updatedPosition;
     boolean bol,update;
+    String ime;
     byte [] NewImage;
     byte[] slikaa;
 
@@ -77,6 +78,9 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
         SharedPreferences sharedPreferences = getSharedPreferences("username",MODE_PRIVATE);
         String user = sharedPreferences.getString("user","");
+        SharedPreferences sharedPreferences1 = getSharedPreferences("mesto",MODE_PRIVATE);
+        ime = sharedPreferences1.getString("mesto","");
+
 
         if(!user.contains("admin") && !user.contains("Admin")){
             editbtn.setVisibility(View.GONE);
@@ -262,12 +266,13 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
         if (!currentTitle.equals(newTitle) || !newDetails.equals(oldDetails)) {
             DBDogadjaji dbHelper = new DBDogadjaji(this);
-            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails);
+            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails,ime);
 
             if (isUpdated) {
                 Toast.makeText(this, "Record updated successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("updatedItem", newTitle);
+                intent.putExtra("ime",ime);
                 intent.putExtra("updatedPosition", updatedPosition); // Pass the position of the updated item
                 setResult(Activity.RESULT_OK, intent);
 
@@ -278,7 +283,7 @@ public class DogadjajiDetalji extends AppCompatActivity{
             update = false;
         } else if (!currentTitle.equals(newTitle) || !newDetails.equals(oldDetails) || update) {
             DBDogadjaji dbHelper = new DBDogadjaji(this);
-            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails);
+            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails,ime);
 
             if (isUpdated) {
                 Toast.makeText(this, "Record updated successfully", Toast.LENGTH_SHORT).show();

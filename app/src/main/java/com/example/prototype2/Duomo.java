@@ -54,7 +54,7 @@ public class Duomo extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String m = "Duomo";
+                        String m = "DuomoAdmin";
                         values = adminDB.getValues(m);
 
                         naslov.setText(values[0]);

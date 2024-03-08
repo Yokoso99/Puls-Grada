@@ -141,7 +141,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
     private void sendRequestToServer() {
         // Define your localhost URL
-        String localhostUrl = "http://192.168.2.102/serverrequest.php";
+        String localhostUrl = "http://10.5.48.60/serverrequest.php";
 
 
         event = new Events(eventTitle,eventDate,eventTime,encodedImage,eventTip,eventDetails);
@@ -324,7 +324,10 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
         String tablename = "";
         SharedPreferences sharedPreferences = getSharedPreferences("mesto",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         mesto = sharedPreferences.getString("mesto","");
+        editor.putString("mesto",mesto);
+        editor.apply();
 
 
         switch (mesto){
@@ -340,7 +343,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
             case "BasementBar":
                 tablename = "BasementBar";
                 break;
-            case "":
+
 
         }
 
@@ -390,6 +393,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            String ime = data.getStringExtra("ime");
             // Retrieve updated data from DogadjajiDetalji activity
             String updatedItem = data.getStringExtra("updatedItem");
             int updatedPosition = data.getIntExtra("updatedPosition", -1);
@@ -419,10 +423,10 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
                 String eventDetail = data.getStringExtra("updatedItem");
                 if(updatedImageBytes == null){
-                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, eventDetail);
+                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, eventDetail,ime);
 
                 }else {
-                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, eventDetail);
+                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, eventDetail,ime);
 
                 }
                  if(updatedImageBytes != null){

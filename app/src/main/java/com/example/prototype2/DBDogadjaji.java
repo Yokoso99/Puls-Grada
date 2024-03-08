@@ -13,13 +13,13 @@ public class DBDogadjaji extends SQLiteOpenHelper {
 
 
     public DBDogadjaji(Context context) {
-        super(context, "Dogadjaji.db", null, 28);
+        super(context, "Dogadjaji.db", null, 29);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create TABLE Dogadjaji(eventTitle TEXT primary key, eventDate TEXT," +
+        db.execSQL("create TABLE BasementBar(eventTitle TEXT primary key, eventDate TEXT," +
                 " eventTime TEXT, eventImage BLOB, eventTip TEXT, eventDetail TEXT)");
 
         db.execSQL("create TABLE KruskaPab(eventTitle TEXT primary key, eventDate TEXT," +
@@ -37,21 +37,38 @@ public class DBDogadjaji extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("drop TABLE if exists Dogadjaji");
+        db.execSQL("drop TABLE if exists BasementBar");
         db.execSQL("drop TABLE if exists KruskaPab");
         db.execSQL("drop TABLE if exists SalsaBar");
         db.execSQL("drop TABLE if exists Duomo");
         onCreate(db);
     }
 
-    public boolean updateRecord(String title, String newTitle, String newDetails) {
+    public boolean updateRecord(String title, String newTitle, String newDetails,String ime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("eventTitle", newTitle);
         contentValues.put("eventDetail", newDetails);
+        String tablename = "";
+
+        switch (ime){
+            case "KruskaPab":
+                tablename = "KruskaPab";
+                break;
+            case "SalsaBar":
+                tablename = "SalsaBar";
+                break;
+            case "Duomo":
+                tablename = "Duomo";
+                break;
+            case "BasementBar":
+                tablename = "BasementBar";
+                break;
 
 
-        int rowsAffected = db.update("Dogadjaji", contentValues, "eventTitle" + " = ?", new String[]{title});
+        }
+
+        int rowsAffected = db.update(tablename, contentValues, "eventTitle" + " = ?", new String[]{title});
         db.close();
 
         return rowsAffected > 0;

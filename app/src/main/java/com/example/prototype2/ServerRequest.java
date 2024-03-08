@@ -61,7 +61,7 @@ public class ServerRequest extends AsyncTask<Void, Void, String> {
 
             // Build the request
             Request request = new Request.Builder()
-                    .url("http://192.168.2.102/serverrequest.php")  // Update the URL accordingly
+                    .url("http://10.5.48.60/serverrequest.php")  // Update the URL accordingly
                     .post(requestBody)
                     .build();
 
