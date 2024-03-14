@@ -2,6 +2,7 @@ package com.example.prototype2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -74,16 +75,6 @@ public class DBDogadjaji extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
-    public boolean updateImage(String title, byte[] newImage) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("eventImage", newImage);
-        int rowsAffected = db.update("Dogadjaji", contentValues, "eventTitle" + " = ?", new String[]{title});
-        db.close();
-
-        return rowsAffected > 0;
-    }
-
     public boolean isDeleted(String title) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -125,5 +116,57 @@ public class DBDogadjaji extends SQLiteOpenHelper {
 
 
         return isDeleted;
+    }
+
+    public String checkTable(String title){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+
+        String tablename = "KruskaPab";
+        String tablename1 = "SalsaBar";
+        String tablename2 = "Duomo";
+        String tablename3 = "BasementBar";
+
+        cursor = db.rawQuery("SELECT * FROM " + tablename + " WHERE eventTitle = ? ", new String[]{title});
+        int count = cursor.getCount();
+        cursor.close();
+        if(count > 0){
+            return tablename;
+        }
+        cursor = db.rawQuery("SELECT * FROM " + tablename1 + " WHERE eventTitle = ? ", new String[]{title});
+        int count1 = cursor.getCount();
+        cursor.close();
+        if(count > 0 ){
+            return tablename1;
+        }
+        return null;
+    }
+    public boolean updateImage(String title, byte[] newImage, String ime) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("eventImage", newImage);
+        String tablename = "";
+
+        switch (ime){
+            case "KruskaPab":
+                tablename = "KruskaPab";
+                break;
+            case "SalsaBar":
+                tablename = "SalsaBar";
+                break;
+            case "Duomo":
+                tablename = "Duomo";
+                break;
+            case "BasementBar":
+                tablename = "BasementBar";
+                break;
+
+
+        }
+
+        int rowsAffected = db.update(tablename, contentValues, "eventTitle" + " = ?", new String[]{title});
+        db.close();
+
+        return rowsAffected > 0;
     }
 }

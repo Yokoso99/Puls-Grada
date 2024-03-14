@@ -67,6 +67,20 @@ public class AdminDB extends SQLiteOpenHelper {
             return false;
     }
 
+    public String  checkAdmin(String user){
+        SQLiteDatabase MyDb = this.getReadableDatabase();
+        Cursor cursor = MyDb.rawQuery("SELECT * FROM Admini WHERE ime = ?", new String[]{user});
+        int count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+            return user;
+        } else
+            return null;
+
+    }
+
+
+
     public String[] getValues(String user) {
         SQLiteDatabase MyDb = this.getReadableDatabase();
         Cursor cursor = null;

@@ -81,7 +81,6 @@ public class AdapterDogadjaji extends RecyclerView.Adapter<DogadjajiViewHolder> 
 
               Intent intent = new Intent(context, DogadjajiDetalji.class);
 
-
                 intent.putExtra("eventTitle", item.getDataTitle());
                 intent.putExtra("eventDate", item.getDataDesc());
                 intent.putExtra("eventTime", item.getDataLang());

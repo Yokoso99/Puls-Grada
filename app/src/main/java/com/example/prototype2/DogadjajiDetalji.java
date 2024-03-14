@@ -60,7 +60,8 @@ public class DogadjajiDetalji extends AppCompatActivity{
     byte [] NewImage;
     byte[] slikaa;
 
-
+    String[] value;
+    String naziv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +76,14 @@ public class DogadjajiDetalji extends AppCompatActivity{
         slika_add.setVisibility(View.GONE);
         slika_delete.setVisibility(View.GONE);
         deletebtn = findViewById(R.id.delete_btn);
+        AdminDB adminDB = new AdminDB(this);
+        DBDogadjaji dbDogadjaji = new DBDogadjaji(this);
+
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("username",MODE_PRIVATE);
         String user = sharedPreferences.getString("user","");
+
         SharedPreferences sharedPreferences1 = getSharedPreferences("mesto",MODE_PRIVATE);
         ime = sharedPreferences1.getString("mesto","");
 
@@ -85,8 +91,6 @@ public class DogadjajiDetalji extends AppCompatActivity{
         if(!user.contains("admin") && !user.contains("Admin")){
             editbtn.setVisibility(View.GONE);
         }
-
-
 
 
         slika = findViewById(R.id.slika);
@@ -108,6 +112,29 @@ public class DogadjajiDetalji extends AppCompatActivity{
             slika.setImageBitmap(encodedImage);
             detalji = opis.getText().toString();
         }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(adminDB.ifUserExists(user)){
+
+                    String m;
+                    String a = naslov.getText().toString();
+                    m = dbDogadjaji.checkTable(a);
+
+                    if(user.contains("Kruska") && m.contains("Kruska")){
+                        editbtn.setVisibility(View.VISIBLE);
+                    }
+                    if(user.contains("Salsa") && m.contains("Salsa")){
+                        editbtn.setVisibility(View.VISIBLE);
+                    }
+
+
+
+                } else{
+                    editbtn.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
         deletebtn.setOnClickListener(new View.OnClickListener() {
@@ -269,12 +296,12 @@ public class DogadjajiDetalji extends AppCompatActivity{
             boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails,ime);
 
             if (isUpdated) {
-                Toast.makeText(this, "Record updated successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("updatedItem", newTitle);
                 intent.putExtra("ime",ime);
                 intent.putExtra("updatedPosition", updatedPosition); // Pass the position of the updated item
                 setResult(Activity.RESULT_OK, intent);
+                isUpdated = false;
 
 
             } else {
@@ -286,23 +313,25 @@ public class DogadjajiDetalji extends AppCompatActivity{
             boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails,ime);
 
             if (isUpdated) {
-                Toast.makeText(this, "Record updated successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("updatedItem", newTitle);
+                intent.putExtra("ime",ime);
                 intent.putExtra("updatedPosition", updatedPosition); // Pass the position of the updated item
                 setResult(Activity.RESULT_OK, intent);
 
+                isUpdated = false;
             }
         }
     }
     private void updateImage(byte[] newimage,String title){
         if(update) {
             DBDogadjaji dbHelper = new DBDogadjaji(this);
-            boolean updateImage = dbHelper.updateImage(title, newimage);
+            boolean updateImage = dbHelper.updateImage(title, newimage,ime);
             if (updateImage) {
-                Toast.makeText(this, "Record updated successfully", Toast.LENGTH_SHORT).show();
+                updateImage = false;
                 Intent intent = new Intent();
                 intent.putExtra("updatedItem", newimage);
+                intent.putExtra("ime",ime);
                 intent.putExtra("updatedPosition", updatedPosition); // Pass the position of the updated item
                 setResult(Activity.RESULT_OK, intent);
             }

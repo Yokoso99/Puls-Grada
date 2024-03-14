@@ -141,7 +141,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
     private void sendRequestToServer() {
         // Define your localhost URL
-        String localhostUrl = "http://10.5.48.60/serverrequest.php";
+        String localhostUrl = "http://192.168.1.161/serverrequest.php";
 
 
         event = new Events(eventTitle,eventDate,eventTime,encodedImage,eventTip,eventDetails);
@@ -272,6 +272,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
     }
 
 
+
     private void insertDataIntoDataBase(List<DogadjajiItem> datalist){
         SQLiteDatabase db = dbDogadjaji.getWritableDatabase();
         SharedPreferences sharedPreferences = getSharedPreferences("mesto",MODE_PRIVATE);
@@ -330,6 +331,8 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
         editor.apply();
 
 
+
+
         switch (mesto){
             case "KruskaPab":
                 tablename = "KruskaPab";
@@ -346,6 +349,8 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
 
         }
+
+
 
 
         Cursor cursor = db.query(tablename,null,null,null,null,null,null);
@@ -394,7 +399,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String ime = data.getStringExtra("ime");
-            // Retrieve updated data from DogadjajiDetalji activity
+
             String updatedItem = data.getStringExtra("updatedItem");
             int updatedPosition = data.getIntExtra("updatedPosition", -1);
             byte[] updatedImageBytes = data.getByteArrayExtra("updatedImage");
@@ -430,7 +435,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
                 }
                  if(updatedImageBytes != null){
-                    boolean isImageUpdated = dbDogadjaji.updateImage(updatedItem,updatedImageBytes);
+                    boolean isImageUpdated = dbDogadjaji.updateImage(updatedItem,updatedImageBytes,ime);
                 }
                  runOnUiThread(new Runnable() {
                      @Override
