@@ -401,6 +401,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
             String ime = data.getStringExtra("ime");
 
             String updatedItem = data.getStringExtra("updatedItem");
+            String updatedDetail = data.getStringExtra("updatedDetail");
             int updatedPosition = data.getIntExtra("updatedPosition", -1);
             byte[] updatedImageBytes = data.getByteArrayExtra("updatedImage");
 
@@ -428,10 +429,10 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
                 String eventDetail = data.getStringExtra("updatedItem");
                 if(updatedImageBytes == null){
-                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, eventDetail,ime);
+                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, updatedDetail,ime);
 
                 }else {
-                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, eventDetail,ime);
+                    boolean isUpdated = dbDogadjaji.updateRecord(bazaList.get(updatedPosition).getDataTitle(), updatedItem, updatedDetail,ime);
 
                 }
                  if(updatedImageBytes != null){

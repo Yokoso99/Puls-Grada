@@ -60,8 +60,8 @@ public class DogadjajiDetalji extends AppCompatActivity{
     byte [] NewImage;
     byte[] slikaa;
 
-    String[] value;
-    String naziv;
+    boolean provera;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,27 +111,41 @@ public class DogadjajiDetalji extends AppCompatActivity{
             opis.setText(eventDetail);
             slika.setImageBitmap(encodedImage);
             detalji = opis.getText().toString();
+            editbtn.setVisibility(View.GONE);
         }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(adminDB.ifUserExists(user)){
+                if(!adminDB.ifUserExists(user)){
 
-                    String m;
-                    String a = naslov.getText().toString();
-                    m = dbDogadjaji.checkTable(a);
-
-                    if(user.contains("Kruska") && m.contains("Kruska")){
-                        editbtn.setVisibility(View.VISIBLE);
-                    }
-                    if(user.contains("Salsa") && m.contains("Salsa")){
-                        editbtn.setVisibility(View.VISIBLE);
-                    }
+                    editbtn.setVisibility(View.GONE);
+                    provera = false;
 
 
 
                 } else{
-                    editbtn.setVisibility(View.GONE);
+
+                    String m;
+                    String a = "";
+                    a = naslov.getText().toString();
+                    m = dbDogadjaji.checkTable(a);
+
+                    if(user.contains("Kruska") && m.contains("Kruska")){
+                        editbtn.setVisibility(View.VISIBLE);
+                        provera = true;
+                    }
+                    if(user.contains("Salsa") && m.contains("Salsa")){
+                        editbtn.setVisibility(View.VISIBLE);
+                        provera = true;
+                    }
+                    if(user.contains("Basement") && m.contains("Basement")){
+                        editbtn.setVisibility(View.VISIBLE);
+                        provera = true;
+                    }
+                    if(user.contains("Duomo") && m.contains("Duomo")){
+                        editbtn.setVisibility(View.VISIBLE);
+                        provera = true;
+                    }
                 }
             }
         });
@@ -190,9 +204,12 @@ public class DogadjajiDetalji extends AppCompatActivity{
                         slikaa = stream.toByteArray();
                         updateDataBase(stari_naslov,novi_naslov,detalji,novi_detalji);
                         updateImage(NewImage,stari_naslov);
+                        editbtn.setText("Edit");
+                        naslov.setEnabled(false);
+                        opis.setEnabled(false);
 
                 }
-                if(!opis.isEnabled()){
+                if(!opis.isEnabled() && provera){
 
                     bol = true;
                     editbtn.setText("save");
@@ -201,10 +218,9 @@ public class DogadjajiDetalji extends AppCompatActivity{
                     deletebtn.setVisibility(View.VISIBLE);
                     slika_add.setVisibility(View.VISIBLE);
                     slika_delete.setVisibility(View.VISIBLE);
-                }else {
-                    editbtn.setText("Edit");
-                    opis.setEnabled(false);
-                    naslov.setEnabled(false);
+                }else if(!provera){
+                    editbtn.setVisibility(View.GONE);
+
 
                 }
             }
@@ -291,38 +307,42 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
     private void updateDataBase(String currentTitle, String newTitle, String oldDetails,String newDetails) {
 
-        if (!currentTitle.equals(newTitle) || !newDetails.equals(oldDetails)) {
+        if (!currentTitle.equals(newTitle)) {
             DBDogadjaji dbHelper = new DBDogadjaji(this);
-            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails,ime);
+            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails, ime);
 
             if (isUpdated) {
                 Intent intent = new Intent();
                 intent.putExtra("updatedItem", newTitle);
-                intent.putExtra("ime",ime);
+                intent.putExtra("updatedDetail", newDetails);
+                intent.putExtra("ime", ime);
                 intent.putExtra("updatedPosition", updatedPosition); // Pass the position of the updated item
                 setResult(Activity.RESULT_OK, intent);
                 isUpdated = false;
 
 
-            } else {
-                Toast.makeText(this, "Failed to update record", Toast.LENGTH_SHORT).show();
             }
-            update = false;
-        } else if (!currentTitle.equals(newTitle) || !newDetails.equals(oldDetails) || update) {
+        }
+        if (!newDetails.equals(oldDetails)) {
             DBDogadjaji dbHelper = new DBDogadjaji(this);
-            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails,ime);
+            boolean isUpdated = dbHelper.updateRecord(currentTitle, newTitle, newDetails, ime);
 
             if (isUpdated) {
                 Intent intent = new Intent();
                 intent.putExtra("updatedItem", newTitle);
-                intent.putExtra("ime",ime);
+                intent.putExtra("updatedDetail", newDetails);
+                intent.putExtra("ime", ime);
                 intent.putExtra("updatedPosition", updatedPosition); // Pass the position of the updated item
                 setResult(Activity.RESULT_OK, intent);
-
                 isUpdated = false;
+
+                update = false;
             }
         }
     }
+
+
+
     private void updateImage(byte[] newimage,String title){
         if(update) {
             DBDogadjaji dbHelper = new DBDogadjaji(this);

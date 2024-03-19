@@ -70,7 +70,14 @@ public class DBDogadjaji extends SQLiteOpenHelper {
         }
 
         int rowsAffected = db.update(tablename, contentValues, "eventTitle" + " = ?", new String[]{title});
-        db.close();
+        int rowsAffected1 = db.update(tablename, contentValues, "eventDetail" + " = ?", new String[]{newDetails});
+
+        if(rowsAffected > 0){
+            return rowsAffected > 0;
+        }
+        if(rowsAffected1 > 0){
+            return rowsAffected1 > 0;
+        }
 
         return rowsAffected > 0;
     }
@@ -139,6 +146,17 @@ public class DBDogadjaji extends SQLiteOpenHelper {
         if(count > 0 ){
             return tablename1;
         }
+        cursor = db.rawQuery("SELECT * FROM " + tablename2 + " WHERE eventTitle = ? ",new String[]{title});
+        int count2 = cursor.getCount();
+        if(count2 > 0){
+            return  tablename2;
+        }
+        cursor = db.rawQuery("SELECT * FROM " + tablename3 + " WHERE eventTitle = ? ",new String[]{title});
+        int count3 = cursor.getCount();
+        if(count3 > 0){
+            return  tablename3;
+        }
+
         return null;
     }
     public boolean updateImage(String title, byte[] newImage, String ime) {
