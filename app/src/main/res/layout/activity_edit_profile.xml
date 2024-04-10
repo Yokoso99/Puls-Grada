@@ -20,11 +20,12 @@
         android:gravity="center"
         android:layout_above="@+id/card_view">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/postavi_sliku"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            app:shapeAppearanceOverlay="@style/profile_round_rect"
             android:layout_margin="10dp"
             android:adjustViewBounds="true"
             android:background="@drawable/border_plus3"
@@ -53,8 +54,7 @@
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

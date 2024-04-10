@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.22")

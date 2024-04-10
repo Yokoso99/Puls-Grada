@@ -67,24 +67,14 @@ public class AdminDB extends SQLiteOpenHelper {
             return false;
     }
 
-    public String  checkAdmin(String user){
-        SQLiteDatabase MyDb = this.getReadableDatabase();
-        Cursor cursor = MyDb.rawQuery("SELECT * FROM Admini WHERE ime = ?", new String[]{user});
-        int count = cursor.getCount();
-        cursor.close();
-        if (count > 0) {
-            return user;
-        } else
-            return null;
 
-    }
 
 
 
     public String[] getValues(String user) {
         SQLiteDatabase MyDb = this.getReadableDatabase();
         Cursor cursor = null;
-        String[] values = new String[9];
+        String[] values = new String[10];
 
 
             cursor = MyDb.rawQuery("SELECT * FROM Admini WHERE ime = ?", new String[]{user});
@@ -98,6 +88,7 @@ public class AdminDB extends SQLiteOpenHelper {
                 values[5] = cursor.getString(cursor.getColumnIndexOrThrow("subota"));
                 values[6] = cursor.getString(cursor.getColumnIndexOrThrow("nedelja"));
                 values[7] = cursor.getString(cursor.getColumnIndexOrThrow("detalji"));
+                values[9] = cursor.getString(cursor.getColumnIndexOrThrow("ime"));
 
                 byte[] blobData = cursor.getBlob(cursor.getColumnIndexOrThrow("slika"));
 

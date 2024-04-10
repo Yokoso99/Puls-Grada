@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
+
+    >
+
+
+    <RelativeLayout
+        android:layout_marginBottom="40dp"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:background="@color/black"
+            app:strokeWidth="5dp"
+            app:strokeColor="@color/my_primary"
+            android:padding="5dp"
+            app:shapeAppearanceOverlay="@style/profile_round"
+            android:id="@+id/profil"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+
+    </RelativeLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="28dp"
+        android:layout_marginBottom="-20dp"
+        android:id="@+id/card_view">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="28dp">
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ime i prezime korisnika"
+                android:alpha="0.8"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/imeprez"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.8"
+                android:text="Korisnicko ime"/>
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.8"
+                android:text="Broj telefona"
+                android:textStyle="bold"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+            <EditText
+                android:id="@+id/mobilni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sifra"
+                android:alpha="0.8"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/sifra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nova sifra"
+                android:alpha="0.8"
+                android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/novasifra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Broj godina"
+                android:alpha="0.8"
+                android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/brojgodina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sacuvajtbn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Sacuvaj profil"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cornerRadius="32dp"
+                android:alpha="1"
+                android:backgroundTint="@color/background2"/>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>
