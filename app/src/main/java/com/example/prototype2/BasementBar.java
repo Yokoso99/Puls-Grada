@@ -19,10 +19,11 @@ public class BasementBar extends AppCompatActivity {
 
     MaterialButton pogledaj_dogadjaje;
 
+
     TextView ponpet,subota,nedelja,mobilni,adresa,naslov;
     TextView opis;
     String[] values = new String[9];
-    ImageView postavisliku;
+    ImageView postavisliku,reviews,photos;
     String user;
     String mesto = "BasementBar";
 
@@ -41,12 +42,31 @@ public class BasementBar extends AppCompatActivity {
         adresa = findViewById(R.id.adresa);
         opis = findViewById(R.id.movieSummary);
         naslov = findViewById(R.id.movieTitle);
+        photos = findViewById(R.id.photos);
+        reviews = findViewById(R.id.reviews);
         postavisliku = findViewById(R.id.imageView3);
 
         adminDB = new AdminDB(this);
 
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("username",MODE_PRIVATE);
         user = sharedPreferences.getString("user","");
+
+        photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BasementBar.this, Photos.class);
+                startActivity(intent);
+            }
+        });
+        reviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BasementBar.this, Reviews.class);
+                startActivity(intent);
+            }
+        });
 
         if(user.contains("Admin") || user.contains("admin")){
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Photos"
+    android:background="@color/background">
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/ViewPage"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="@id/ViewPage"
+        app:layout_constraintEnd_toEndOf="@id/ViewPage"
+        app:layout_constraintTop_toBottomOf="@id/ViewPage"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:backgroundTint="@color/background2"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="Dodaj slike"
+        android:id="@+id/dodajbtn"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/indicator"
+        app:layout_constraintStart_toStartOf="@id/indicator"
+        app:layout_constraintEnd_toEndOf="@id/indicator"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

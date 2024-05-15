@@ -17,6 +17,12 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Settings">
         <activity
+            android:name=".Reviews"
+            android:exported="false" />
+        <activity
+            android:name=".Photos"
+            android:exported="false" />
+        <activity
             android:name=".EditProfileUser"
             android:exported="false" />
         <activity

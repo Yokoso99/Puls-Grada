@@ -55,9 +55,6 @@ public class DogadjajiItem {
 
     }
 
-    public void setDataImage(Bitmap updatedBitmap) {
-        this.dataImage = updatedBitmap;
-    }
 
     public void setDataTitle(String updatedItem) {
         this.dataTitle = updatedItem;

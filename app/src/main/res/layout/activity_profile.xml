@@ -38,7 +38,6 @@
                 app:shapeAppearanceOverlay="@style/profile_round"
                 android:background="@color/black"
                 app:strokeWidth="5dp"
-
                 app:strokeColor="@color/my_primary"
                 android:padding="5dp"
                 android:id="@+id/slikaprofila"
@@ -53,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Uros Markovic"
+                android:text=""
                 android:textColor="#FFFFFF"
                 android:textSize="22dp"
                 android:textStyle="bold"/>
@@ -62,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="username"
+                android:text=""
                 android:textColor="#FFFFFF"
                 android:textSize="20dp"
                 android:layout_marginTop="3dp"
@@ -72,7 +71,7 @@
                 android:id="@+id/mobilni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+381 677054604"
+                android:text=""
                 android:textColor="#CCFFFFFF"
                 android:textSize="12sp"
                 android:layout_marginTop="5dp"
@@ -161,16 +160,16 @@
                         android:switchMinWidth="50dp"
                         android:theme="@style/NotSwitch"></androidx.appcompat.widget.SwitchCompat>
                 </RelativeLayout>
-                <!--Private Account-->
                 <RelativeLayout
+
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:id="@+id/PrivateAccount"
+                        android:id="@+id/language"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/privacy"
+                        android:src="@drawable/tran_lang"
                         android:padding="12dp"
                         android:background="@drawable/round_back_private_account"
                         />
@@ -179,19 +178,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Private Acccount"
+                        android:text="Languages"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"
-                        android:layout_toEndOf="@+id/PrivateAccount"/>
+                        android:layout_toEndOf="@+id/language"/>
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@drawable/right_arrow"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"
-                        android:theme="@style/PrivateAccountSwitch"></androidx.appcompat.widget.SwitchCompat>
+                        android:layout_centerVertical="true"/>
                 </RelativeLayout>
+                <!--Private Account-->
+
             </LinearLayout>
             <LinearLayout
                 android:background="@drawable/round_back_white10_20"
@@ -263,53 +263,6 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"/>
                 </RelativeLayout>
-                <!--Languages-->
-                <RelativeLayout
-
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/language"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/tran_lang"
-                        android:padding="12dp"
-                        android:background="@drawable/round_back_notifications"
-                        />
-                    <TextView
-                        android:layout_marginStart="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Languages"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/language"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/right_arrow"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:background="@drawable/round_back_white10_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <!--Messages-->
                 <RelativeLayout
 
                     android:layout_marginTop="10dp"
@@ -340,73 +293,14 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"/>
                 </RelativeLayout>
+                <!--Languages-->
 
-                <!--About Us-->
-                <RelativeLayout
 
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/aboutus"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/about_us"
-                        android:padding="12dp"
-                        android:background="@drawable/round_back_security"
-                        />
-                    <TextView
-                        android:layout_marginStart="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="About us"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/aboutus"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/right_arrow"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-
-                <!--FAQ-->
-                <RelativeLayout
-
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/faq"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/faq"
-                        android:padding="12dp"
-                        android:background="@drawable/round_back_night_mode"
-                        />
-                    <TextView
-                        android:layout_marginStart="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="FAQs"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/faq"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/right_arrow"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/logoutlinear"
                 android:layout_marginBottom="20dp"

@@ -88,25 +88,31 @@ public class EditProfileUser extends AppCompatActivity {
                 }
             });
         }
+                savebtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-        savebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                        imePrez = imeprez.getText().toString();
+                        Mobilni = mobilni.getText().toString();
+                        staraSifra = starasifra.getText().toString();
+                        novaSifra = novasifra.getText().toString();
+                        userName = username.getText().toString();
+                        BROJGODINA = Integer.parseInt(brojgodina.getText().toString());
+                        if(!staraSifra.equals(novaSifra)){
+                            String currentUser = sharedPreferences.getString("user", "");
+                            insertIntoDB(user);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("user", userName);
+                            editor.apply();
+
+                        }else {
+                            return;
+                        }
+                    }
+                });
 
 
 
-
-                imePrez = imeprez.getText().toString();
-                Mobilni = mobilni.getText().toString();
-                staraSifra = starasifra.getText().toString();
-                novaSifra = novasifra.getText().toString();
-                userName = username.getText().toString();
-                BROJGODINA = Integer.parseInt(brojgodina.getText().toString());
-                if(staraSifra != novaSifra){
-                    insertIntoDB(user);
-                }
-            }
-        });
 
         profil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +135,7 @@ public class EditProfileUser extends AppCompatActivity {
         contentValues.put("imeprez",imePrez);
         contentValues.put("phoneNumber",Mobilni);
         contentValues.put("password",staraSifra);
-        contentValues.put("novasifra",novaSifra);
+        contentValues.put("password",novaSifra);
         contentValues.put("brojgodina",BROJGODINA);
 
         Bitmap bitmap = ((BitmapDrawable) profil.getDrawable()).getBitmap();

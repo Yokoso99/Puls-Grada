@@ -85,6 +85,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.google.android.libraries.places:places:3.3.0")
     implementation ("com.caverock:androidsvg:1.4")
+    implementation ("me.relex:circleindicator:2.1.6")
 
 
 }
