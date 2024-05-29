@@ -3,25 +3,32 @@ package com.example.prototype2;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
@@ -52,7 +59,7 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
     ImageView slika_add,slika_delete;
     int i = 0;
-    AppCompatButton editbtn,deletebtn;
+    AppCompatButton editbtn,deletebtn,upisi_me_btn;
     String stari_naslov,novi_naslov,detalji,novi_detalji;
     int updatedPosition;
     boolean bol,update;
@@ -60,13 +67,20 @@ public class DogadjajiDetalji extends AppCompatActivity{
     byte [] NewImage;
     byte[] slikaa;
 
-    boolean provera;
+    boolean provera,exists;
+    LottieAnimationView animationView;
+
+    String eventTitle,eventDate,eventTime,eventTip,eventDetail,user;
+    Bitmap encodedImage;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dogadjaji_detalji);
+
+        animationView = findViewById(R.id.animationView);
 
         editbtn = findViewById(R.id.editbtn);
         opis = findViewById(R.id.opis);
@@ -76,32 +90,44 @@ public class DogadjajiDetalji extends AppCompatActivity{
         slika_add.setVisibility(View.GONE);
         slika_delete.setVisibility(View.GONE);
         deletebtn = findViewById(R.id.delete_btn);
+        upisi_me_btn = findViewById(R.id.upisi_me_btn);
+        upisi_me_btn.setVisibility(View.GONE);
         AdminDB adminDB = new AdminDB(this);
         DBDogadjaji dbDogadjaji = new DBDogadjaji(this);
+        UpcAndPassDB upcAndPassDB = new UpcAndPassDB(this);
+
 
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("username",MODE_PRIVATE);
-        String user = sharedPreferences.getString("user","");
+        user = sharedPreferences.getString("user","");
 
         SharedPreferences sharedPreferences1 = getSharedPreferences("mesto",MODE_PRIVATE);
         ime = sharedPreferences1.getString("mesto","");
 
 
+
+
+
+
+
+
+
         if(!user.contains("admin") && !user.contains("Admin")){
             editbtn.setVisibility(View.GONE);
+            upisi_me_btn.setVisibility(View.VISIBLE);
         }
 
 
         slika = findViewById(R.id.slika);
         Intent intent = getIntent();
         if (intent != null) {
-            String eventTitle = intent.getStringExtra("eventTitle");
-            String eventDate = intent.getStringExtra("eventDate");
-            String eventTime = intent.getStringExtra("eventTime");
-            String eventDetail = intent.getStringExtra("eventDetail");
-            String eventTip = intent.getStringExtra("eventTip");
-            Bitmap encodedImage = BitmapFactory.decodeByteArray(
+            eventTitle = intent.getStringExtra("eventTitle");
+            eventDate = intent.getStringExtra("eventDate");
+            eventTime = intent.getStringExtra("eventTime");
+            eventDetail = intent.getStringExtra("eventDetail");
+            eventTip = intent.getStringExtra("eventTip");
+            encodedImage = BitmapFactory.decodeByteArray(
                     getIntent().getByteArrayExtra("encodedImage"), 0, getIntent().getByteArrayExtra("encodedImage").length);
 
 
@@ -113,6 +139,33 @@ public class DogadjajiDetalji extends AppCompatActivity{
             detalji = opis.getText().toString();
             editbtn.setVisibility(View.GONE);
         }
+        upisi_me_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(upcAndPassDB.checkIfExist(eventTitle,eventDate)){
+
+                    exists = true;
+                    if(exists){
+                        Toast.makeText(DogadjajiDetalji.this, "Upisani ste vec na dogadjaj", Toast.LENGTH_SHORT).show();
+
+                    }
+                    return;
+                }else {
+
+
+                    insertIntoDB();
+                    upisi_me_btn.setVisibility(View.GONE);
+                    animationView.setVisibility(View.VISIBLE);
+                    animationView.playAnimation();
+                }
+
+
+
+            }
+
+        });
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -273,6 +326,34 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
 
     }
+    private void animateButton() {
+        // First part of animation: shrink and move to the middle
+        ObjectAnimator translateXStart = ObjectAnimator.ofFloat(upisi_me_btn, "translationX", -1000);
+        ObjectAnimator translateYStart = ObjectAnimator.ofFloat(upisi_me_btn, "translationY", 1000);
+        ObjectAnimator scaleXStart = ObjectAnimator.ofFloat(upisi_me_btn, "scaleX", 0.5f);
+        ObjectAnimator scaleYStart = ObjectAnimator.ofFloat(upisi_me_btn, "scaleY", 0.5f);
+
+        AnimatorSet startSet = new AnimatorSet();
+        startSet.playTogether(scaleXStart, scaleYStart);
+        startSet.setInterpolator(new DecelerateInterpolator());
+        startSet.setDuration(1000);
+
+        // Second part of animation: move back and grow to original size
+        ObjectAnimator translateXEnd = ObjectAnimator.ofFloat(upisi_me_btn, "translationX", 0);
+        ObjectAnimator translateYEnd = ObjectAnimator.ofFloat(upisi_me_btn, "translationY", 0);
+        ObjectAnimator scaleXEnd = ObjectAnimator.ofFloat(upisi_me_btn, "scaleX", 1f);
+        ObjectAnimator scaleYEnd = ObjectAnimator.ofFloat(upisi_me_btn, "scaleY", 1f);
+
+        AnimatorSet endSet = new AnimatorSet();
+        endSet.playTogether(scaleXEnd, scaleYEnd);
+        endSet.setInterpolator(new DecelerateInterpolator());
+        endSet.setDuration(1000);
+
+        // Combine both animations into a sequence
+        AnimatorSet combinedSet = new AnimatorSet();
+        combinedSet.playSequentially(startSet, endSet);
+        combinedSet.start();
+    }
 
     @Override
     public void onBackPressed() {
@@ -304,6 +385,38 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
         }
     }
+
+    private void insertIntoDB() {
+
+        UpcAndPassDB upcAndPassDB = new UpcAndPassDB(this);
+        SQLiteDatabase db = upcAndPassDB.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        encodedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] encodedImageBytes = byteArrayOutputStream.toByteArray();
+
+
+
+        contentValues.put("eventTitle", eventTitle);
+            contentValues.put("eventDate", eventDate);
+            contentValues.put("eventTime", eventTime);
+            contentValues.put("eventTip", eventTip);
+            contentValues.put("eventDetail", eventDetail);
+            contentValues.put("eventImage", encodedImageBytes);
+            contentValues.put("username", user);
+            db.insert("Upcoming",null,contentValues);
+
+    }
+
+
+
+
+
+
+
+
+
 
     private void updateDataBase(String currentTitle, String newTitle, String oldDetails,String newDetails) {
 

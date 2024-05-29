@@ -4,8 +4,7 @@ public class Item {
 
     private String name;
 
-    private int id;
-    private String type;
+
     private int imageResourceId;
 
 

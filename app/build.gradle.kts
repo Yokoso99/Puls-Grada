@@ -86,6 +86,7 @@ dependencies {
     implementation ("com.google.android.libraries.places:places:3.3.0")
     implementation ("com.caverock:androidsvg:1.4")
     implementation ("me.relex:circleindicator:2.1.6")
+    implementation ("com.airbnb.android:lottie:6.4.0")
 
 
 }

@@ -17,6 +17,12 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Settings">
         <activity
+            android:name=".Passed"
+            android:exported="false" />
+        <activity
+            android:name=".UpcomingAndPassed"
+            android:exported="false" />
+        <activity
             android:name=".Reviews"
             android:exported="false" />
         <activity

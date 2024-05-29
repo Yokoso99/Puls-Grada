@@ -174,7 +174,7 @@ public class Main extends AppCompatActivity {
         buttonOpenNewPage2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this, HistoryActivity.class);
+                Intent intent = new Intent(Main.this, UpcomingAndPassed.class);
                 startActivity(intent);
 
             }

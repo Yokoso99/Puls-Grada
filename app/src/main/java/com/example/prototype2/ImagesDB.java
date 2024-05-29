@@ -1,5 +1,7 @@
 package com.example.prototype2;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -7,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -14,21 +18,18 @@ import java.util.List;
 
 public class ImagesDB extends SQLiteOpenHelper {
 
-    public ImagesDB(Context context){
-        super(context,"ImagesDB.db",null,12);
+    public ImagesDB(Context context) {
+        super(context, "Images.db", null, 30);
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE DuomoImages (_id INTEGER , name TEXT, image BLOB)");
-        db.execSQL("CREATE TABLE SalsaBarImages (_id INTEGER , name TEXT, image BLOB)");
-        db.execSQL("CREATE TABLE KruskaPabImages (_id INTEGER , name TEXT, image BLOB)");
-        db.execSQL("CREATE TABLE BasementBarImages (_id INTEGER , name TEXT, image BLOB)");
-
-
-
+        db.execSQL("CREATE TABLE DuomoImages (id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, name TEXT, image BLOB)");
+        db.execSQL("CREATE TABLE SalsaBarImages (id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, name TEXT, image BLOB)");
+        db.execSQL("CREATE TABLE KruskaPabImages (id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, name TEXT, image BLOB)");
+        db.execSQL("CREATE TABLE BasementBarImages (id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, name TEXT, image BLOB)");
 
 
 
@@ -43,51 +44,7 @@ public class ImagesDB extends SQLiteOpenHelper {
         db.execSQL("drop TABLE if exists DuomoImages");
         onCreate(db);
     }
-    public List<Bitmap> value(List<Bitmap> list,Integer id) {
-        if (list.isEmpty()) { // If the list is empty, fetch values from the database
-            SQLiteDatabase db = this.getReadableDatabase();
 
-
-
-
-
-
-
-
-
-            Cursor cursor = null;
-
-            switch (id){
-                case (1):
-                    cursor = db.rawQuery("SELECT * FROM DuomoImages WHERE _id = ?", new String[]{String.valueOf(id)});
-                    break;
-                case (2):
-                    cursor = db.rawQuery("SELECT * FROM KruskaPabImages WHERE _id = ?", new String[]{String.valueOf(id)});
-                    break;
-                case (3):
-                    cursor = db.rawQuery("SELECT * FROM SalsaBarImages WHERE _id = ?", new String[]{String.valueOf(id)});
-                    break;
-                case (4):
-                    cursor = db.rawQuery("SELECT * FROM BasementBarImages WHERE _id = ?", new String[]{String.valueOf(id)});
-
-            }
-
-            if (cursor.moveToFirst()) {
-                do {
-
-                    byte[] imageBytes = cursor.getBlob(cursor.getColumnIndexOrThrow("image"));
-
-                    // Convert the byte array to Bitmap
-                    Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-                    list.add(imageBitmap);
-
-                } while (cursor.moveToLast());
-
-                cursor.close();
-            }
-            db.close();
-        }
-        return list; // Return the list, either populated from the database or unchanged
-    }
 }
+
+

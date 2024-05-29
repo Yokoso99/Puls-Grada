@@ -143,7 +143,7 @@ public class DBDogadjaji extends SQLiteOpenHelper {
         cursor = db.rawQuery("SELECT * FROM " + tablename1 + " WHERE eventTitle = ? ", new String[]{title});
         int count1 = cursor.getCount();
         cursor.close();
-        if(count > 0 ){
+        if(count1 > 0 ){
             return tablename1;
         }
         cursor = db.rawQuery("SELECT * FROM " + tablename2 + " WHERE eventTitle = ? ",new String[]{title});

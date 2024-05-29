@@ -387,9 +387,6 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
                 }
             });
 
-        }else {
-
-
         }
 
     }

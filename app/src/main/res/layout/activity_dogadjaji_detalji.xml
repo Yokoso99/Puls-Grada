@@ -26,12 +26,12 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="250dp"
+        android:adjustViewBounds="true"
         android:id="@+id/slika"
-        android:padding="8dp"
         android:layout_gravity="center"
         android:src="@drawable/slika2"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitXY"/>
     <View
         android:layout_width="wrap_content"
         android:layout_height="20dp"/>
@@ -58,12 +58,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+
+
         >
+        <FrameLayout
+            android:layout_above="@id/conlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/upisi_me_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/round_back_secondary2"
+                android:text="Upisi me na dogadjaj"
+                android:textSize="20dp" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_above="@id/conlayout"
+                android:layout_gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:lottie_rawRes="@raw/success"
+                android:visibility="gone">
+
+            </com.airbnb.lottie.LottieAnimationView>/>
+        </FrameLayout>
+
+
+
+
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/conlayout"
             android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editbtn"
             app:layout_constraintBottom_toBottomOf="parent"
