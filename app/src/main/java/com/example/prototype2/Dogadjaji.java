@@ -24,6 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prototype2.databinding.ActivityDogadjajiBinding;
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -34,7 +38,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -61,6 +67,8 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
     List<Events> events = new ArrayList<>();
     String eventTitle,eventDate,eventTime,encodedImage,eventTip,eventDetails,mesto;
     byte[] bytearray;
+    FirebaseFirestore db;
+
 
 
     SearchView searchView;
@@ -71,6 +79,7 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
         setContentView(R.layout.activity_dogadjaji);
 
 
+        db = FirebaseFirestore.getInstance();
         dbDogadjaji = new DBDogadjaji(this);
         Intent intent = getIntent();
         if (getIntent() != null && getIntent().hasExtra("eventTitle")) {
@@ -82,15 +91,16 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
             bytearray = getIntent().getByteArrayExtra("encodedImage");
             eventTip = intent.getStringExtra("eventType");
             eventDetails = intent.getStringExtra("eventDetail");
-
-
-
-
-
-
             encodedImage = Base64.encodeToString(bytearray, Base64.DEFAULT);
 
         }
+
+
+
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+// Check if the user is already signed in
 
         SharedPreferences sharedPreferences = getSharedPreferences("mesto",MODE_PRIVATE);
         mesto = sharedPreferences.getString("mesto","");
@@ -102,8 +112,9 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
 
 
-
+         sendEventDataToFirestore();
          sendRequestToServer();
+
 
 
 
@@ -124,10 +135,16 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
         GridLayoutManager gridLayoutManager = new GridLayoutManager(Dogadjaji.this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            loadDataFromFirestore();
+        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 loadAndDisplayDataBase();
+                loadDataFromFirestore();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -136,6 +153,66 @@ public class Dogadjaji extends AppCompatActivity implements ServerRequest.Server
 
 
     }
+
+    private void sendEventDataToFirestore() {
+        // Collect event data
+        event = new Events(eventTitle, eventDate, eventTime, encodedImage, eventTip, eventDetails);
+
+        // Create a map to store the data
+        Map<String, Object> eventMap = new HashMap<>();
+        eventMap.put("eventTitle", event.getEventTitle());
+        eventMap.put("eventDate", event.getEventDate());
+        eventMap.put("eventTime", event.getEventTime());
+        eventMap.put("encodedImage", event.getEncodedImage());
+        eventMap.put("eventTip", event.getEventTip());
+        eventMap.put("eventDetail", event.getEventDetail());
+
+        if(!eventMap.containsValue(null)){
+            db.collection(mesto)
+                    .add(eventMap)
+                    .addOnSuccessListener(documentReference ->Toast.makeText(this, "Date is in the past", Toast.LENGTH_SHORT).show());
+            ;
+        }
+
+
+
+    }
+    private void loadDataFromFirestore() {
+        db.collection(mesto)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<DogadjajiItem> firestoreList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String eventTitle = document.getString("eventTitle");
+                            String eventDate = document.getString("eventDate");
+                            String eventTime = document.getString("eventTime");
+                            String encodedImage = document.getString("encodedImage");
+                            String eventTip = document.getString("eventTip");
+                            String eventDetail = document.getString("eventDetail");
+
+                            byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                            Bitmap imageBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+                            DogadjajiItem dogadjajiItem = new DogadjajiItem(eventTitle, eventDate, eventTime, imageBitmap, eventTip, eventDetail);
+                            firestoreList.add(dogadjajiItem);
+                        }
+
+                        runOnUiThread(() -> {
+                            bazaList.clear();
+                            bazaList.addAll(firestoreList);
+                            adapter.notifyDataSetChanged();
+                        });
+
+                    } else {
+                        Log.w("Firestore", "Error getting documents.", task.getException());
+                        // Handle the error here, for example, by showing a toast message
+                        runOnUiThread(() -> Toast.makeText(Dogadjaji.this, "Failed to load data from Firestore", Toast.LENGTH_SHORT).show());
+                    }
+                });
+    }
+
+
 
 
 

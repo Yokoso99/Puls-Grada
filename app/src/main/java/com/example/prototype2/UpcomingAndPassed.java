@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UpcomingAndPassed extends AppCompatActivity {
@@ -90,6 +93,17 @@ public class UpcomingAndPassed extends AppCompatActivity {
         adapter = new AdapterUpcAndPass(UpcomingAndPassed.this, bazaList);
         recyclerView.setAdapter(adapter);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDateString = sdf.format(new Date());
+
+        Date date = new Date();
+
+        try {
+            date = sdf.parse(currentDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         Cursor cursor;
 
         cursor = db.query("Upcoming",null,null,null,null,null,null);
@@ -99,7 +113,7 @@ public class UpcomingAndPassed extends AppCompatActivity {
 
 
                 String eventTitle = cursor.getString(cursor.getColumnIndexOrThrow("eventTitle"));
-                String eventDate = cursor.getString(cursor.getColumnIndexOrThrow("eventDate"));
+                String eventDateStr = cursor.getString(cursor.getColumnIndexOrThrow("eventDate"));
                 String eventTime = cursor.getString(cursor.getColumnIndexOrThrow("eventTime"));
                 String eventTip = cursor.getString(cursor.getColumnIndexOrThrow("eventTip"));
                 String eventDetail = cursor.getString(cursor.getColumnIndexOrThrow("eventDetail"));
@@ -108,9 +122,20 @@ public class UpcomingAndPassed extends AppCompatActivity {
                 // Convert the byte array to Bitmap
                 Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
-                UpcPassDogadjajiItem upcPassDogadjajiItem1 = new UpcPassDogadjajiItem(eventTitle, eventDate, eventTime, imageBitmap, eventTip, eventDetail);
-                tempList.add(upcPassDogadjajiItem1);
 
+
+                Date eventDate = null;
+                try {
+                    eventDate = sdf.parse(eventDateStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (eventDate != null && eventDate.after(date)) {
+
+
+                    UpcPassDogadjajiItem upcPassDogadjajiItem1 = new UpcPassDogadjajiItem(eventTitle, eventDateStr, eventTime, imageBitmap, eventTip, eventDetail);
+                    tempList.add(upcPassDogadjajiItem1);
+                }
             }while(cursor.moveToNext());
             cursor.close();
             db.close();

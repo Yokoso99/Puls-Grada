@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,23 +38,38 @@ public class Passed extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerview);
         upcoming = findViewById(R.id.upcoming);
+        passed = findViewById(R.id.passed);
+
+        Intent intent = new Intent();
+        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         UpcAndPassDB upcAndPassDB = new UpcAndPassDB(this);
         SharedPreferences sharedPreferences1 = getSharedPreferences("username",MODE_PRIVATE);
         user = sharedPreferences1.getString("user","");
 
+
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(Passed.this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapter);
+        
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 loadDB();
+                loadDB2();
                 adapter = new AdapterUpcAndPass(Passed.this,bazaList);
                 adapter.notifyDataSetChanged();
             }
         });
+        passed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogAlert();
+            }
+        });
+
 
 
         upcoming.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +81,13 @@ public class Passed extends AppCompatActivity {
 
             }
         });
+
+
+    }
+    private void showDialogAlert() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        DialogAlert dialogAlert = new DialogAlert();
+        dialogAlert.show(fragmentManager, "DialogAlert");
     }
 
 
@@ -127,9 +150,12 @@ public class Passed extends AppCompatActivity {
                                     UpcPassDogadjajiItem upcPassDogadjajiItem1 = new UpcPassDogadjajiItem(eventTitle, eventDateStr, eventTime, imageBitmap, eventTip, eventDetail);
                                     tempList.add(upcPassDogadjajiItem1);
                 }
+
             } while (cursor.moveToNext());
             cursor.close();
             db.close();
+
+            loadDB2();
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -147,11 +173,64 @@ public class Passed extends AppCompatActivity {
 
     }
 
+    private void loadDB2() {
+        UpcAndPassDB upcAndPassDB = new UpcAndPassDB(this);
+        SQLiteDatabase db = upcAndPassDB.getReadableDatabase();
+        List<UpcPassDogadjajiItem> tempList = new ArrayList<>();
+        adapter = new AdapterUpcAndPass(Passed.this,bazaList);
+        recyclerView.setAdapter(adapter);
+
+        Cursor cursor = db.query("Passed", null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+
+                String eventTitle = cursor.getString(cursor.getColumnIndexOrThrow("eventTitle"));
+                String eventDateStr = cursor.getString(cursor.getColumnIndexOrThrow("eventDate"));
+                String eventTime = cursor.getString(cursor.getColumnIndexOrThrow("eventTime"));
+                String eventTip = cursor.getString(cursor.getColumnIndexOrThrow("eventTip"));
+                String eventDetail = cursor.getString(cursor.getColumnIndexOrThrow("eventDetail"));
+                byte[] imageBytes = cursor.getBlob(cursor.getColumnIndexOrThrow("eventImage"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+
+                Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+
+                UpcPassDogadjajiItem upcPassDogadjajiItem1 = new UpcPassDogadjajiItem(eventTitle, eventDateStr, eventTime, imageBitmap, eventTip, eventDetail);
+                tempList.add(upcPassDogadjajiItem1);
+
+            }while(cursor.moveToNext());
+            cursor.close();
+            db.close();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (bazaList) {
+                        bazaList.clear();
+                        bazaList.addAll(tempList);
+                        tempList.clear();
+                        adapter.notifyDataSetChanged();
+
+                    }
+                }
+            });
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
 }

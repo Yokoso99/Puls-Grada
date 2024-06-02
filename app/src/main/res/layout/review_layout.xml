@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <LinearLayout
+        android:background="@color/primary"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/private_account"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:text="Rate this event!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv"
+            android:textColor="@color/white"
+            android:text="Very disappointed"
+            android:textSize="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RatingBar
+            android:id="@+id/ratingbar"
+            android:progressTint="@color/private_account"
+            android:background="@color/primary"
+            android:progressBackgroundTint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            />
+        <EditText
+            android:id="@+id/edittext"
+            android:padding="5dp"
+            android:alpha="0.6"
+            android:textColorHint="@color/white"
+            android:hint="Napisite svoj utisak o ovom dogadjaju..."
+            android:maxLines="4"
+            android:gravity="top|start"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/background"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/border_opis"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn"
+            android:backgroundTint="#482377"
+            android:textSize="20dp"
+            android:text="Ocenite dogadjaj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"/>
+    </LinearLayout>
+</LinearLayout>

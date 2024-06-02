@@ -17,6 +17,9 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Settings">
         <activity
+            android:name=".DialogAlert"
+            android:exported="false" />
+        <activity
             android:name=".Passed"
             android:exported="false" />
         <activity

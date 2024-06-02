@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -143,8 +147,8 @@ public class AddEventActivity extends AppCompatActivity implements ServerRequest
             @Override
             public void onClick(View v) {
                 String eventTitle = nazivEditText.getText().toString();
-                String eventDate = editTextDay.getText().toString() + "." +
-                        editTextMonth.getText().toString() + "." +
+                String eventDate = editTextDay.getText().toString() + "-" +
+                        editTextMonth.getText().toString() + "-" +
                         editTextYear.getText().toString();
                 String eventTime = pocetakEditText.getText().toString() + "-" + krajEditText.getText().toString();
                 String eventDetail = opis.getText().toString();
@@ -270,29 +274,56 @@ public class AddEventActivity extends AppCompatActivity implements ServerRequest
         String dayText = editTextDay.getText().toString();
         String yearText = editTextYear.getText().toString();
 
-        if(monthText.equals("") || dayText.equals("") || yearText.equals(""))
-        {
-            Toast.makeText(this, "Molimo Vas popunite sva polja",Toast.LENGTH_SHORT).show();
-        }
-        // Validate month
-        try {
-            int month = Integer.parseInt(monthText);
-            int day = Integer.parseInt(dayText);
-            int year = Integer.parseInt(yearText);
-            if (month < 1 || month > 12 || day < 1 || day > 31 || year < 2024 || year > 2024 ) {
-                Toast.makeText(this, "Invalid month", Toast.LENGTH_SHORT).show();
-                bol2 = false;
-                return;
-            } else {
-                bol2 = true;
-            }
-
-        } catch (NumberFormatException e) {
-
+        if (monthText.equals("") || dayText.equals("") || yearText.equals("")) {
+            Toast.makeText(this, "Molimo Vas popunite sva polja", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Validate month, day, and year input
+        int month, day, year;
+        try {
+            month = Integer.parseInt(monthText);
+            day = Integer.parseInt(dayText);
+            year = Integer.parseInt(yearText);
+            if (month < 1 || month > 12 || day < 1 || day > 31 || year < 2024 || year > 2024) {
+                Toast.makeText(this, "Invalid date", Toast.LENGTH_SHORT).show();
+                bol2 = false;
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+            bol2 = false;
+            return;
         }
+
+        // Create a date from the input
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String inputDateString = String.format("%02d-%02d-%04d", day, month, year);
+        Date inputDate;
+        try {
+            inputDate = sdf.parse(inputDateString);
+        } catch (ParseException e) {
+            Toast.makeText(this, "Error parsing date", Toast.LENGTH_SHORT).show();
+            bol2 = false;
+            return;
+        }
+
+        // Get the current date without the time part
+        Date currentDate = new Date();
+        try {
+            currentDate = sdf.parse(sdf.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Compare the input date with the current date
+        if (inputDate.before(currentDate)) {
+             Toast.makeText(this, "Date is in the past", Toast.LENGTH_SHORT).show();
+            bol2 = false;
+        } else {
+            bol2 = true;
+        }
+    }
 
 
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "365271693533",
+    "project_id": "pulsgrada",
+    "storage_bucket": "pulsgrada.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365271693533:android:6ed995f7abd1e77b2c0334",
+        "android_client_info": {
+          "package_name": "com.example.prototype2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPeBCkn2DhIU_O-U9cHMw9S9x4UNJhgzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

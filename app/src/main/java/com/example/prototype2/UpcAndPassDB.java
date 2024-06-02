@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class UpcAndPassDB extends SQLiteOpenHelper {
     public UpcAndPassDB(Context context){
-        super(context,"UpcAndPass.db",null,6);
+        super(context,"UpcAndPass.db",null,7);
     }
 
     @Override

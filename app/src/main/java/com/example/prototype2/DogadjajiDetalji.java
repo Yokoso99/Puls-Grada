@@ -326,34 +326,7 @@ public class DogadjajiDetalji extends AppCompatActivity{
 
 
     }
-    private void animateButton() {
-        // First part of animation: shrink and move to the middle
-        ObjectAnimator translateXStart = ObjectAnimator.ofFloat(upisi_me_btn, "translationX", -1000);
-        ObjectAnimator translateYStart = ObjectAnimator.ofFloat(upisi_me_btn, "translationY", 1000);
-        ObjectAnimator scaleXStart = ObjectAnimator.ofFloat(upisi_me_btn, "scaleX", 0.5f);
-        ObjectAnimator scaleYStart = ObjectAnimator.ofFloat(upisi_me_btn, "scaleY", 0.5f);
 
-        AnimatorSet startSet = new AnimatorSet();
-        startSet.playTogether(scaleXStart, scaleYStart);
-        startSet.setInterpolator(new DecelerateInterpolator());
-        startSet.setDuration(1000);
-
-        // Second part of animation: move back and grow to original size
-        ObjectAnimator translateXEnd = ObjectAnimator.ofFloat(upisi_me_btn, "translationX", 0);
-        ObjectAnimator translateYEnd = ObjectAnimator.ofFloat(upisi_me_btn, "translationY", 0);
-        ObjectAnimator scaleXEnd = ObjectAnimator.ofFloat(upisi_me_btn, "scaleX", 1f);
-        ObjectAnimator scaleYEnd = ObjectAnimator.ofFloat(upisi_me_btn, "scaleY", 1f);
-
-        AnimatorSet endSet = new AnimatorSet();
-        endSet.playTogether(scaleXEnd, scaleYEnd);
-        endSet.setInterpolator(new DecelerateInterpolator());
-        endSet.setDuration(1000);
-
-        // Combine both animations into a sequence
-        AnimatorSet combinedSet = new AnimatorSet();
-        combinedSet.playSequentially(startSet, endSet);
-        combinedSet.start();
-    }
 
     @Override
     public void onBackPressed() {
